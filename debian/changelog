@@ -1,3 +1,9 @@
+grub2 (2.12-7deepin15) unstable; urgency=medium
+
+  * fix(cve): CVE-2024-56738
+
+ -- deepin-ci-robot <packages@deepin.org>  Tue, 16 Jun 2026 20:28:33 +0800
+
 grub2 (2.12-7deepin14) unstable; urgency=medium
 
   * fix(sw64): fix EFI call compatibility and PE machine detection
