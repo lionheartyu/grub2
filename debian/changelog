@@ -1,3 +1,9 @@
+grub2 (2.12-7deepin16) unstable; urgency=medium
+
+  * Add LoaderTimeExecUSec EFI variable logging for boot time measurement.
+
+ -- xinpeng.wang <wangxinpeng@uniontech.com>  Mon, 03 Aug 2026 17:06:55 +0800
+
 grub2 (2.12-7deepin15) unstable; urgency=medium
 
   * fix(cve): CVE-2024-56738

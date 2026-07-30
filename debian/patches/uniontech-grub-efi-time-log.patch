@@ -1,0 +1,32 @@
+Index: grub2/grub-core/loader/efi/linux.c
+===================================================================
+--- grub2.orig/grub-core/loader/efi/linux.c
++++ grub2/grub-core/loader/efi/linux.c
+@@ -32,6 +32,8 @@
+ #include <grub/i18n.h>
+ #include <grub/lib/cmdline.h>
+ #include <grub/verify.h>
++#include <grub/time.h>
++#include <grub/env.h>
+ 
+ GRUB_MOD_LICENSE ("GPLv3+");
+ 
+@@ -234,6 +236,18 @@ grub_arch_efi_linux_boot_image (grub_add
+ 			    (grub_uint8_t *) args, len, NULL);
+ 
+   grub_dprintf ("linux", "starting image %p\n", image_handle);
++  if (grub_env_get ("grub_efi_time_log"))
++    {
++      grub_uint64_t exec_us;
++      char val[32];
++      static const grub_guid_t guid = GRUB_EFI_VENDOR_BOOT_LOADER_INTERFACE_GUID;
++      grub_efi_uint32_t attr = GRUB_EFI_VARIABLE_BOOTSERVICE_ACCESS |
++			       GRUB_EFI_VARIABLE_RUNTIME_ACCESS;
++
++      exec_us = grub_get_time_ms () * 1000;
++      grub_snprintf (val, sizeof (val), "%" PRIuGRUB_UINT64_T, exec_us);
++      grub_efi_set_variable_to_string ("LoaderTimeExecUSec", &guid, val, attr);
++    }
+   status = grub_efi_start_image (image_handle, 0, NULL);
+ 
+   /* When successful, not reached */

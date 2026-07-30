@@ -230,3 +230,4 @@ deepin/0006-grub-install-support-secureboot-detect-for-loongarch.patch
 uniontech-mkconfig_lib-suppress-stderr-for-grub-probe-in-uses_abstraction.patch
 uniontech-update-zh-cn-translate.patch
 fix-CVE-2024-56738.patch
+uniontech-grub-efi-time-log.patch
