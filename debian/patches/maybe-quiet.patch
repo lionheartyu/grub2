@@ -350,36 +350,40 @@ index b0860b2..887355d 100644
  
  . "$pkgdatadir/grub-mkconfig_lib"
  
-@@ -159,20 +160,28 @@ linux_entry ()
+@@ -159,28 +160,32 @@ linux_entry ()
      fi
      printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
    fi
--  message="$(gettext_printf "Loading Linux %s ..." ${version})"
--  sed "s/^/$submenu_indentation/" << EOF
-+  if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
-+    message="$(gettext_printf "Loading Linux %s ..." ${version})"
-+    sed "s/^/$submenu_indentation/" << EOF
+   if [ "x${GRUB_FASTBOOT}" != "xtrue" ]; then
+-    message="$(gettext_printf "Loading Linux %s ..." ${version})"
+-    sed "s/^/$submenu_indentation/" << EOF
++    if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
++      message="$(gettext_printf "Loading Linux %s ..." ${version})"
++      sed "s/^/$submenu_indentation/" << EOF
  	echo	'$(echo "$message" | grub_quote)'
-+EOF
-+  fi
-+  sed "s/^/$submenu_indentation/" << EOF
+ EOF
++    fi
+   fi
+   sed "s/^/$submenu_indentation/" << EOF
  	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro ${args}
  EOF
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
--    message="$(gettext_printf "Loading initial ramdisk ...")"
-+    if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
-+      message="$(gettext_printf "Loading initial ramdisk ...")"
-+      sed "s/^/$submenu_indentation/" << EOF
-+	echo	'$(echo "$message" | grub_quote)'
-+EOF
-+    fi
      initrd_path=
      for i in ${initrd}; do
        initrd_path="${initrd_path} ${rel_dirname}/${i}"
      done
+     if [ "x${GRUB_FASTBOOT}" != "xtrue" ]; then
+-      message="$(gettext_printf "Loading initial ramdisk ...")"
+-      sed "s/^/$submenu_indentation/" << EOF
++      if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
++        message="$(gettext_printf "Loading initial ramdisk ...")"
++        sed "s/^/$submenu_indentation/" << EOF
+ 	echo	'$(echo "$message" | grub_quote)'
+ EOF
++      fi
+     fi
      sed "s/^/$submenu_indentation/" << EOF
--	echo	'$(echo "$message" | grub_quote)'
  	initrd	$(echo $initrd_path)
  EOF
    fi

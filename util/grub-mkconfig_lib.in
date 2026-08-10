@@ -155,6 +155,10 @@ prepare_grub_to_access_device ()
   fs_hint="`"${grub_probe}" --device $@ --target=compatibility_hint`"
   if [ "x$fs_hint" != x ]; then
     echo "set root='$fs_hint'"
+    if [ "x${GRUB_FASTBOOT_TRUST_HINTS}" = "xtrue" ]; then
+      IFS="$old_ifs"
+      return
+    fi
   fi
   if [ "x${GRUB_DISABLE_UUID}" != "xtrue" ] && fs_uuid="`"${grub_probe}" --device $@ --target=fs_uuid 2> /dev/null`" ; then
     hints="`"${grub_probe}" --device $@ --target=hints_string 2> /dev/null`" || hints=
@@ -401,4 +405,3 @@ grub_tab="	"
 grub_add_tab () {
   sed -e "s/^/$grub_tab/"
 }
-

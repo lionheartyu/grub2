@@ -204,5 +204,5 @@ index 32c480d..3e75e33 100644
 +  fi
 +done
  
- if [ "x${GRUB_DISABLE_UUID}" = "xtrue" ]; then
-   if [ -z "${GRUB_DISABLE_LINUX_UUID}" ]; then
+ if [ "x${GRUB_FASTBOOT}" = "xtrue" ]; then
+   GRUB_TIMEOUT=0
